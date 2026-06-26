@@ -2,7 +2,7 @@
 
 ## 工作边界
 
-- 不设计镜头内部的具体 MG 动效，也不替 Claude AI 写动画方案；Claude AI 负责单个镜头的创意、`design.md` 填写、代码实现和 mp4 渲染。
+- 不设计镜头内部的具体 MG 动效，也不替 Claude AI 写动画方案；Claude AI 负责单个镜头的创意、代码实现和 mp4 渲染。
 - 你负责invoke claude AI，修改`run-claude-ai.sh`中的提示词。可以根据当前镜头文案调整提示词描述，不要求逐字沿用模板中的 `PROMPT`。调整目标是让单个镜头的艺术效果、视觉概念和动效表达更贴合文案。
 - 不得改变模板中的执行契约：非交互式运行、输出文件名、完整字幕路径、阶段性汇报格式、日志过滤方式和最终 mp4 交付要求必须保持确定。
 
@@ -17,7 +17,6 @@
 为每个镜头创建独立目录，建议使用 `scenes/scene-001`、`scenes/scene-002` 这样的命名。目录结构参考 `exampleFolder`，至少包含：
 
 - `.claude/`：放置 hyperframes 相关 skills 或项目指令。
-- `design.md`：由 Claude AI 覆盖写入镜头设计。
 - `run-claude-ai.sh`：从模板复制后按当前镜头填写。
 - `transcription.srt`：复制完整字幕文件，供 Claude AI 理解整体上下文。
 
@@ -32,7 +31,7 @@
 如果一段时间没有新的 `[[USER_MESSAGE]]` 输出，不要立即判定失败；先检查：
 
 - `claude-<scene>.stream.jsonl` 和 `claude-<scene>.stderr.log` 是否仍在写入。
-- `design.md`、项目文件、渲染目录或 mp4 文件是否有更新时间。
+- 项目文件、渲染目录或 mp4 文件是否有更新时间。
 - 是否存在 hyperframes、ffmpeg、Chromium 或 Node 渲染进程。
 - `run-claude-ai.sh` 的最终退出码。
 
@@ -44,6 +43,6 @@
 
 最终交付：
 
-- 每个镜头目录中的 `design.md`、Claude 日志和镜头 mp4。
+- 每个镜头目录中的 Claude 日志和镜头 mp4。
 - 拼接后的 `final.mp4`。
 - 如有失败，提供失败镜头编号、失败阶段、关键日志和建议重试方式。

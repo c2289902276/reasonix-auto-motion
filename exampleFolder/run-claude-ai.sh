@@ -33,22 +33,21 @@ PROMPT="$(cat <<PROMPT_EOF
 任务目标：
 1. 根据镜头文案和时长，设计 1080x1440、30fps、静音、无音轨的 MG 动画。
 2. 使用 hyperframes 编写代码并渲染 mp4。
-3. 覆盖写入 design.md，不保留模板占位文本。
-4. 最终 mp4 必须输出为：${OUTPUT_FILE}
-5. 不要向用户提问；直接写文件、渲染并交付结果。
+3. 最终 mp4 必须输出为：${OUTPUT_FILE}
+4. 不要向用户提问；直接写文件、渲染并交付结果。
 
 镜头信息：
 - 镜头编号：${SCENE_ID}
 - 镜头时长：${SCENE_DURATION_SECONDS} 秒
 - 输出文件：${OUTPUT_FILE}
-- 完整字幕文件：${FULL_TRANSCRIPT_PATH}
+- 完整文案：${FULL_TRANSCRIPT_PATH}
 - 镜头文案：
 ${SCENE_TEXT}
 
 上下文使用规则：
 - 请先阅读${FULL_TRANSCRIPT_PATH}，用于理解当前镜头在完整文案中的语义位置。
-- 不需要把字幕文案逐字放进画面；可使用图形、图标、概念性文字或少量标签表达含义。
-- 如果专业名词、品牌等你不了解，必须联网搜索了解并判断是否存在明确 logo 或品牌视觉资产，若是必须联网下载svg或者图片资源，用专业 logo 表达意象。
+- 不需要把镜头文案逐字放进画面；可使用图形、图标、概念性文字或少量标签表达含义。
+- 如果有名词你不了解，必须联网搜索了解并判断是否存在明确 logo 或品牌视觉资产，若是必须联网下载svg或者图片资源，用专业 logo 表达意象。
 
 实现要求：
 - 使用 hyperframes 完成实现和渲染，可结合 GSAP 等动效库。
@@ -63,7 +62,7 @@ ${SCENE_TEXT}
 
 必须至少输出以下阶段消息，文字保持一致：
 [[USER_MESSAGE]]需求理解和素材检查已完成
-[[USER_MESSAGE]]设计已写入 design.md
+[[USER_MESSAGE]]开始联网搜索
 [[USER_MESSAGE]]代码已完成，开始渲染
 [[USER_MESSAGE]]视频已渲染完成：${OUTPUT_FILE}
 PROMPT_EOF

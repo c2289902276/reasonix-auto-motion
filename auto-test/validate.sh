@@ -5,7 +5,6 @@ ROOT_DIR="${1:-$(pwd)}"
 SCENE_DIR="$ROOT_DIR/scenes/scene-001"
 SCENE_MP4="$SCENE_DIR/scene-001.mp4"
 FINAL_MP4="$ROOT_DIR/final.mp4"
-DESIGN_MD="$SCENE_DIR/design.md"
 USER_LOG="$SCENE_DIR/claude-scene-001.user.log"
 
 fail() {
@@ -55,16 +54,10 @@ check_video_specs() {
   [[ "$audio_count" == "0" ]] || fail "$file has $audio_count audio stream(s), expected none"
 }
 
-require_file "$DESIGN_MD"
-if grep -q "由 Claude 子 agent 用中文填写" "$DESIGN_MD"; then
-  fail "design.md still contains the template placeholder"
-fi
-
 require_file "$USER_LOG"
 grep -q "需求理解和素材检查已完成" "$USER_LOG" || fail "missing progress message: requirement check"
-grep -q "设计已写入 design.md" "$USER_LOG" || fail "missing progress message: design"
-grep -q "代码已完成，开始自检" "$USER_LOG" || fail "missing progress message: code complete"
-grep -q "自检通过，开始渲染" "$USER_LOG" || fail "missing progress message: render start"
+grep -q "开始联网搜索" "$USER_LOG" || fail "missing progress message: web search start"
+grep -q "代码已完成，开始渲染" "$USER_LOG" || fail "missing progress message: code complete and render start"
 grep -q "视频已渲染完成：scene-001.mp4" "$USER_LOG" || fail "missing progress message: render complete"
 
 check_video_specs "$SCENE_MP4"

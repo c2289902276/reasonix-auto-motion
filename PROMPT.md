@@ -18,10 +18,10 @@
 
 - `.claude/`：放置 hyperframes 相关 skills 或项目指令。
 - `design.md`：由 Claude 子 agent 覆盖写入镜头设计。
-- `example.sh`：由你按当前镜头改写后执行。
+- `run-claude-ai.sh`：由你按当前镜头改写后执行。
 - `transcription.srt`：复制完整字幕文件，供 Claude 理解整体上下文。
 
-你需要在每个镜头目录的 `example.sh` 中写明镜头编号、镜头时长、输出文件名、镜头文案和完整字幕路径。Claude 子 agent 应根据镜头文案设计动画，并可参考完整字幕理解上下文。
+你需要在每个镜头目录的 `run-claude-ai.sh` 中写明镜头编号、镜头时长、输出文件名、镜头文案和完整字幕路径。Claude 子 agent 应根据镜头文案设计动画，并可参考完整字幕理解上下文。
 
 遇到专业名词、品牌、产品或机构名称含义不清时，你不需要亲自联网搜索；你需要在给 Claude 的提示词中允许它联网查询。若名词存在明确 logo 或品牌视觉资产，应提示 Claude 优先用 logo 或抽象化品牌图形表达。
 
@@ -38,7 +38,7 @@
 
 ## 阶段性汇报协议
 
-长时间编码和渲染不能等全部完成后再一次性回复。你需要让 Claude 子 agent 在关键阶段输出单独一行、以 `[[USER_MESSAGE]]` 开头的进度消息；`example.sh` 只放行这些消息给你和用户。
+长时间编码和渲染不能等全部完成后再一次性回复。你需要让 Claude 子 agent 在关键阶段输出单独一行、以 `[[USER_MESSAGE]]` 开头的进度消息；`run-claude-ai.sh` 只放行这些消息给你和用户。
 
 你需要要求 Claude 至少输出以下阶段：
 
@@ -59,7 +59,7 @@
 - `claude-<scene>.stream.jsonl` 和 `claude-<scene>.stderr.log` 是否仍在写入。
 - `design.md`、项目文件、渲染目录或 mp4 文件是否有更新时间。
 - 是否存在 hyperframes、ffmpeg、Chromium 或 Node 渲染进程。
-- `example.sh` 的最终退出码。
+- `run-claude-ai.sh` 的最终退出码。
 
 只有在进程退出失败，或长时间无日志、无文件更新且无渲染进程时，才判定该镜头失败并记录失败原因。
 
@@ -72,5 +72,3 @@
 - 每个镜头目录中的 `design.md`、Claude 日志和镜头 mp4。
 - 拼接后的最终 mp4。
 - 如有失败，提供失败镜头编号、失败阶段、关键日志和建议重试方式。
-
-如果当前目录存在 `validate.sh`，说明这是 auto-test 工作区。你需要在生成最终 mp4 后运行 `bash validate.sh .`；如果验收失败，优先修复客观产物问题后重跑验收。auto-test 的通过标准只看客观事实：Codex/Claude 退出状态、阶段消息、`design.md` 是否写入、mp4 是否存在、分辨率是否为 1080x1440、帧率是否为 30fps、时长是否接近字幕时长、是否无音轨。

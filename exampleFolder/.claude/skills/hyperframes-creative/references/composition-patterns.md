@@ -171,7 +171,7 @@ Use separate elements on the same track, each with its own time range. Slides au
     playsinline
   ></video>
   <img id="el-3" data-start="5" data-duration="4" data-track-index="1" src="..." />
-  <audio id="el-4" data-start="0" data-duration="30" data-track-index="2" src="..." />
+  <img id="el-4" data-start="0" data-duration="30" data-track-index="2" src="..." />
 
   <!-- Sub-compositions loaded from files -->
   <div

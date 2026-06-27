@@ -17,11 +17,11 @@ This skill is the **technical contract** — how to build one hyperframes projec
 | `references/data-attributes.md`      | look up any `data-*` (root / clip / sub-comp host / legacy aliases); use `class="clip"`           |
 | `references/tracks-and-clips.md`     | pick `data-track-index`, handle same-track overlap / z-index, time a clip relative to another     |
 | `references/sub-compositions.md`     | wire a sub-composition (host attrs, `<template>`, per-instance vars) and animate inside it        |
-| `references/variables-and-media.md`  | declare variables; place `<video>`/`<audio>`, set volume, trim                                    |
+| `references/variables-and-media.md`  | declare variables; place `<video>` for visual-only playback                                        |
 | `references/determinism-rules.md`    | build a seekable timeline; determinism bans; the animatable-property allowlist; layout / text fit |
 | `references/full-screen-motion.md`   | author full-frame motion with shared backgrounds                                                  |
 | `references/storyboard-format.md`    | author a `STORYBOARD.md` plan (+ the parsed manifest)                                             |
-| `references/script-format.md`        | author the optional `SCRIPT.md` locked narration                                                  |
+| `references/script-format.md`        | author the optional `SCRIPT.md` locked caption text                                              |
 | `references/subagent-dispatch.md`    | map subagent dispatch verbs (parallel fan-out / background / wait) to your harness                |
 | `references/tailwind.md`             | work in a Tailwind v4 project (`init --tailwind`; runtime contract differs from Studio's v3)      |
 
@@ -54,7 +54,7 @@ Surfaced here; full rationale in the linked reference. Do not violate:
 - No render-time clocks / unseeded `Math.random` / network / input-state; no `repeat: -1` (use a finite count). → `determinism-rules.md`
 - Animate only the visual-property allowlist; never `display`/`visibility`; no `gsap.set` on later-scene clips. → `determinism-rules.md`
 - No `<br>` in body text; transformed elements must be block-level + sized; pulsing absolute decoratives need peak clearance. → `determinism-rules.md`
-- `<video>`/`<audio>` must be a **direct child of the host root** (never inside a sub-comp `<template>`/wrapper); the framework owns playback. → `variables-and-media.md`
+- `<video>` must be a **direct child of the host root** (never inside a sub-comp `<template>`/wrapper); the framework owns playback. → `variables-and-media.md`
 - Every `id` must be unique across the **assembled** page; inside a sub-comp, prefix ids with the composition id (`#<id>-hero`). Duplicate `<video>`/`<img>` ids render **blank** — the producer injects frames by `getElementById`, and cross-file dupes slip past `lint`. → `composition-patterns.md`
 - A full-screen scene fill goes on a full-bleed **child** (`position:absolute; inset:0`), never on the composition root itself — the producer's frame compositing can drop the root element's own `background` (the frame renders **black**) even though preview/`snapshot` show it correctly. → `composition-patterns.md`
 

@@ -4,15 +4,15 @@ role: demo
 duration_seconds: [5, 9]
 phases: 4
 visual_arc: page-entry → scroll-to-feature → keyword-highlight → pop-out-emphasis
-uses_rules: [3d-page-scroll, asr-keyword-glow]
+uses_rules: [3d-page-scroll]
 element_roles:
   page_card: Full webpage recreation rendered as a tilted 3D card
   scroll_content: Page content that scrolls within the clipped card
-  highlight_elements: Specific page elements that glow and scale when mentioned in voiceover
+  highlight_elements: Specific page elements that glow and scale when featured
   spotlight: Radial gradient overlay that dims non-highlighted areas
 when_to_use:
   - Demonstrate a specific feature within its natural UI context
-  - Voiceover names features that should highlight in sync
+  - Caption track names features that should highlight in sync
   - Show the product "in action" without a screen recording
   - 3D perspective adds premium feel
 when_not_to_use:
@@ -24,25 +24,25 @@ triggers: [show the feature, product demo, highlight on page, webpage in 3D, scr
 
 # Demo · Page Scroll Spotlight (HyperFrames)
 
-A "this is the product, this is the part that matters" arc: the tilted page coasts in like a held-up phone, voiceover names a couple of features and those words flare on the header, then the page rolls upward to reveal the section being demoed, and one element finally lifts off the surface to claim the climax. Premium-demo register — never cuts, never screen-records.
+A "this is the product, this is the part that matters" arc: the tilted page coasts in like a held-up phone, the caption track names a couple of features and those words flare on the header, then the page rolls upward to reveal the section being demoed, and one element finally lifts off the surface to claim the climax. Premium-demo register — never cuts, never screen-records.
 
 One paused GSAP timeline drives all four phases. Phases 3 and 4 overlap on purpose; everything else has a small breath of buffer.
 
 ## When to Use
 
-- Feature demo where voiceover walks through capabilities by name and the headline words should react
+- Feature demo where the caption track walks through capabilities by name and the headline words should react
 - Product has a real DOM-rendered webpage component (a screenshot cannot be highlighted element-by-element)
 - The demo should feel premium (3D depth + spotlight) rather than flat (a captured recording)
 - Skip if no headline keywords need to glow (use plain `3d-page-scroll` instead) or if only one static product shot is needed
 
 ## Orchestration
 
-Four phases, two rules plus two small inline patterns. The rules carry the bulk; the seams between them are the work.
+Four phases, one rule plus three small inline patterns. The rule carries the bulk; the seams between them are the work.
 
 - **Phase 1 — page card entry**: inline. The [3d-page-scroll](../rules/3d-page-scroll.md) rule starts the card already on screen — it doesn't speak to how the card arrives. We add a single `scale: CARD_ENTRY_FROM_SCALE → 1.0` with `power2.out` on `.page-card`, plus staggered `opacity` fade-ins on navbar / title / CTA. Critical: the card's static tilt is **already baked in by `gsap.set()`** before the entry tween starts — see "Phase 1 Seam" below. A spring (`back.out`) here would look like a pop-up modal, not a phone held up to the camera, so `power2.out` is the only correct ease.
-- **Phase 2 — keyword glow on header**: use [asr-keyword-glow](../rules/asr-keyword-glow.md) in its **karaoke variation** (the rest of the headline stays dim, attacked words pop bright). Default subtle glow reads as ambient on top of the tilted page and gets lost; karaoke gives the words enough contrast to feel narrated. We diverge from the rule on one mechanical point: each word's envelope is driven by **two `tl.fromTo`/`tl.to` tweens on a CSS variable `--glow`** instead of the rule's single-driver `onUpdate` over all words. See "Phase 2 Seam" for why.
+- **Phase 2 — keyword glow on header**: the **karaoke variation** of glow (the rest of the headline stays dim, attacked words pop bright). Default subtle glow reads as ambient on top of the tilted page and gets lost; karaoke gives the words enough contrast to feel anchored. Each word's envelope is driven by **two `tl.fromTo`/`tl.to` tweens on a CSS variable `--glow`**. See "Phase 2 Seam" for why.
 - **Phase 3 — scroll to the feature section**: use [3d-page-scroll](../rules/3d-page-scroll.md) — the rule's main payload. One thing to override from the rule's default: ease is **`power2.inOut`**, not `power3.out`. Reason in this scene: the scroll is symmetrical — it has to start gently (we're already at a held-up frame, a hard onset reads as a jump cut) and decelerate symmetrically into where the pop will happen. The rule's `power3.out` is right when scroll is the climax; here the pop is the climax, so the scroll has to be a transit not a landing.
-- **Phase 4 — pop-out + spotlight**: inline, but re-uses the **`--glow` CSS variable mechanic from asr-keyword-glow**, repurposed for a non-text element. A pair of attack + decay tweens drive `.pop-target { --glow: 0 → 1 → POP_REST_LEVEL }`; CSS `calc()` on that same element derives `translateZ` and `scale` from `--glow`, and a parallel `opacity` tween on `.spotlight` dims the surrounding card. This is the climax — one tween-pair per visual effect would split the source of truth across three timeline calls; one `--glow` driving everything via `calc()` keeps it monotonic and audit-able. See "Phase 4 Seam".
+- **Phase 4 — pop-out + spotlight**: inline. A pair of attack + decay tweens drive `.pop-target { --glow: 0 → 1 → POP_REST_LEVEL }`; CSS `calc()` on that same element derives `translateZ` and `scale` from `--glow`, and a parallel `opacity` tween on `.spotlight` dims the surrounding card. This is the climax — one tween-pair per visual effect would split the source of truth across three timeline calls; one `--glow` driving everything via `calc()` keeps it monotonic and audit-able. See "Phase 4 Seam".
 
 ## Phase Timing
 

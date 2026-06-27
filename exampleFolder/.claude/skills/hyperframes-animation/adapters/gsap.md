@@ -61,7 +61,7 @@ HyperFrames is stricter than vanilla GSAP. Animate only:
 - **Compositor-cheap**: `opacity`, `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotation`, `rotationX`, `rotationY`, `skewX`, `skewY`, `transformOrigin`
 - **Visual fills**: `color`, `backgroundColor`, `borderColor`, `borderRadius`
 - **CSS variables**: `"--hue": 180` etc.
-- **Media `volume`** (on `<audio>` / `<video>`): animate for fades/ducking, e.g. `tl.to("#bgm", { volume: 0, duration: 1 }, "outro")`. The runtime probes these keyframes from the timeline and drives them in both preview and render (they match). This sets the _author_ volume; `data-volume` is the static baseline when no tween touches the element.
+- **Media `volume`** (on `<video>`): animate for fades/ducking, e.g. `tl.to("#bgm", { volume: 0, duration: 1 }, "outro")`. The runtime probes these keyframes from the timeline and drives them in both preview and render (they match). This sets the _author_ volume; `data-volume` is the static baseline when no tween touches the element.
 - **DOM text `innerText`** (for numeric counters): tween it directly, e.g. `tl.to(el, { innerText: 100, snap: { innerText: 1 } })` — `snap` keeps it integer; the GSAP inspector recognizes it as a counter. Equivalent to the `onUpdate`-proxy form in `../rules/counting-dynamic-scale.md`; prefer that proxy form when you must also drive font-size, locale formatting (`toLocaleString`), or a suffix in the same tween.
 
 **Avoid** (use the transform alias instead):
@@ -80,7 +80,7 @@ HyperFrames is stricter than vanilla GSAP. Animate only:
 - `./gsap-timeline-and-labels.md` — timeline creation, position parameter (`+=`, `<`, `>`), labels, nesting, sub-comp `fromTo` preference, playback control.
 - `./gsap-easing-and-stagger.md` — easing families, stagger objects, function-based values, `gsap.matchMedia()`, `gsap.defaults()`.
 - `./gsap-transforms-and-perf.md` — transform aliases, autoAlpha, `quickTo`, `will-change`, performance rules.
-- `../rules/gsap-effects.md` — drop-in recipes: typewriter (with cursor / backspace / word rotation) + audio visualizer (uses `skills/hyperframes-creative/scripts/extract-audio-data.py`).
+- `../rules/gsap-effects.md` — drop-in recipes: typewriter (with cursor / backspace / word rotation).
 
 ## Best Practices
 

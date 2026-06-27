@@ -1,6 +1,6 @@
 # Storyboard format — `STORYBOARD.md` + parsed manifest
 
-Defines the storyboard's **base data format** only: the `STORYBOARD.md` file shape and the `StoryboardManifest` it parses into. How a workflow _generates_ a storyboard lives in that workflow; the optional narration/TTS file (`SCRIPT.md`) is a separate concern owned by the TTS step, not here.
+Defines the storyboard's **base data format** only: the `STORYBOARD.md` file shape and the `StoryboardManifest` it parses into. How a workflow _generates_ a storyboard lives in that workflow; the optional `SCRIPT.md` (locked caption text) is a separate concern, not here.
 
 A storyboard is the **plan layer** for a video — an ordered set of **frames** (key moments) in one markdown file. HyperFrames Studio renders it as a contact sheet (the Storyboard view, behind `VITE_STUDIO_ENABLE_STORYBOARD=1`). Parser: `@hyperframes/core/storyboard` → `StoryboardManifest`; read API: `GET /api/projects/<id>/storyboard`.
 
@@ -26,7 +26,7 @@ One `## Frame N — Title` heading per frame (`Frame` / `Beat` / `Scene` accepte
 | `duration`      | e.g. `4s`                                                                                                     |
 | `transition_in` | `crossfade` / `cut` / `wipe` … (alias `transition`)                                                           |
 | `scene`         | one-line contact-sheet caption (aliases `description` / `summary` / `caption`)                                |
-| `voiceover`     | the frame's narration _guide_ (aliases `vo` / `voice_over` / `narration`)                                     |
+| `caption`       | the frame's on-screen caption _guide_ (alias `caption_line`)                                                   |
 | `poster`        | seconds to seek for the tile poster (past the intro animation)                                                |
 | _any other key_ | kept verbatim under the frame's `extra` — a workflow carries its own per-frame data (effects, assets, …) here |
 
@@ -41,7 +41,7 @@ StoryboardManifest {
     index, number?, title?,
     status,                       // "outline" | "built" | "animated"
     src?, duration? / durationSeconds?, transitionIn?,
-    scene?, voiceover?, poster?,
+    scene?, caption?, poster?,
     narrative,                    // markdown below the metadata
     extra: {…}                    // unknown keys, preserved
   }>
@@ -53,7 +53,7 @@ The read API also adds `srcExists` per frame and attaches the optional `SCRIPT.m
 
 ## `SCRIPT.md` (out of scope here)
 
-Optional, free-form, **not parsed into the manifest** — the locked-narration file that drives TTS. Its format is defined in `references/script-format.md`, and it is absent for videos with no narration/TTS. The per-frame `voiceover` above is the storyboard's own narration guide.
+Optional, free-form, **not parsed into the manifest** — the locked-caption-text file. Its format is defined in the generating workflow (see `product-launch-video` and `website-to-video`). The per-frame `caption` above is the storyboard's own caption guide.
 
 ## Example
 
@@ -72,7 +72,7 @@ audience: indie devs on X
 - poster: 2s
 - transition_in: cut
 - status: animated
-- voiceover: "Ship a launch video in an afternoon."
+- caption: "Ship a launch video in an afternoon."
 - src: compositions/frames/01-hook.html
 
 Open cold on the promise. This is the thesis — everything after pays it off.
@@ -83,7 +83,7 @@ Open cold on the promise. This is the thesis — everything after pays it off.
 - duration: 4s
 - transition_in: crossfade
 - status: built
-- voiceover: "The old way? Prompt, wait twenty minutes, get something that misses."
+- caption: "The old way? Prompt, wait twenty minutes, get something that misses."
 - src: compositions/frames/02-problem.html
 
 The old way: prompt, wait, get something that misses. Establish the pain we remove.
@@ -92,4 +92,4 @@ The old way: prompt, wait, get something that misses. Establish the pain we remo
 ## Notes
 
 - A frame with `status: outline` and no built `src` renders as an outline placeholder.
-- Multi-line `voiceover` values collapse to one line on save.
+- Multi-line `caption` values collapse to one line on save.

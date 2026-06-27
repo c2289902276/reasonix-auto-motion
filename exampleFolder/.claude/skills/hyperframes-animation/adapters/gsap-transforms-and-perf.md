@@ -73,7 +73,7 @@ Only on elements that _actually_ animate. Applied everywhere it becomes useless 
 
 ### gsap.quickTo for frequent updates (preview-only)
 
-For high-frequency updates driven by **events** — pointer move, scroll, audio scrub — `quickTo` reuses the same tween instead of creating a new one each frame:
+For high-frequency updates driven by **events** — pointer move, scroll — `quickTo` reuses the same tween instead of creating a new one each frame:
 
 ```javascript
 const xTo = gsap.quickTo("#cursor", "x", { duration: 0.4, ease: "power3" });
@@ -85,7 +85,7 @@ container.addEventListener("mousemove", (e) => {
 });
 ```
 
-> **Render mode has no input events.** The renderer seeks frame-by-frame; `mousemove`, `scroll`, etc. never fire. `quickTo`'s main use case applies in **live preview** in the browser only. For audio-reactive motion in renders, pre-extract audio data and drive the timeline declaratively (see `../rules/gsap-effects.md`).
+> **Render mode has no input events.** The renderer seeks frame-by-frame; `mousemove`, `scroll`, etc. never fire. `quickTo`'s main use case applies in **live preview** in the browser only.
 
 ### Stagger beats N tweens
 

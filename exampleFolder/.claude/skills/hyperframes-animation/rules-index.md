@@ -9,7 +9,6 @@ Atomic motion recipes. Each lives at `rules/<name>.md`. Compose 2-4 per scene wi
 <vertical-spring-ticker path="rules/vertical-spring-ticker.md">Slot-machine vertical scrolling using stepped GSAP tweens within a masked column. Tags: text, ticker, scroll, vertical</vertical-spring-ticker>
 <counting-dynamic-scale path="rules/counting-dynamic-scale.md">Counter where font size grows with the value for escalating emphasis. Single GSAP tween on a numeric proxy. Tags: counter, scale, font-size, number, dynamic</counting-dynamic-scale>
 <discrete-text-sequence path="rules/discrete-text-sequence.md">Replace entire text states at time thresholds for non-linear typing (typos, holds, bulk additions, backspaces). GSAP onUpdate-driven reverse search. Tags: text, typing, discrete, threshold, non-linear</discrete-text-sequence>
-<asr-keyword-glow path="rules/asr-keyword-glow.md">Highlight keywords with glow + scale + color synced to ASR word timestamps. Two GSAP tweens per word drive a CSS custom property `--glow` through attack-decay-rest envelope. Tags: asr, audio-sync, highlight, glow, keyword, text</asr-keyword-glow>
 <3d-text-depth-layers path="rules/3d-text-depth-layers.md">Multiple offset text layers (N divs at `(i*dx, i*dy)` with decreasing alpha) create a stacked 3D extrusion illusion on large typography. Tags: text, 3d, depth, layers, shadow, typography, stacked</3d-text-depth-layers>
 <context-sensitive-cursor path="rules/context-sensitive-cursor.md">Typing cursor whose `background-color` switches at segment boundaries plus square-wave blink via `(tl.time() % cycle) < cycle/2`. Tags: cursor, color, context, typewriter, styling, segment</context-sensitive-cursor>
 <dynamic-content-sequencing path="rules/dynamic-content-sequencing.md">Pre-compute a flat `[{startTime, endTime, ...}]` array from a script of `{textMain, textAccent, charSpeed, hold}` entries. Each phrase's window = `chars × charSpeed + hold`. Content-driven duration, no hand-tuned offsets. Tags: timeline, sequencing, dynamic, duration, script-driven</dynamic-content-sequencing>
@@ -70,7 +69,7 @@ Atomic motion recipes. Each lives at `rules/<name>.md`. Compose 2-4 per scene wi
 ## Effect Recipes (moved from hyperframes-creative)
 
 <rules>
-<gsap-effects path="rules/gsap-effects.md">Drop-in GSAP timeline patterns — typewriter, audio visualizer, and other reusable choreography blocks. Tags: gsap, recipe, drop-in, typewriter, audio-visualizer</gsap-effects>
+<gsap-effects path="rules/gsap-effects.md">Drop-in GSAP timeline patterns — typewriter and other reusable choreography blocks. Tags: gsap, recipe, drop-in, typewriter</gsap-effects>
 <css-marker-patterns path="rules/css-marker-patterns.md">Pure CSS + GSAP implementations of marker-highlight drawing modes — highlight (yellow sweep), circle (hand-drawn ellipse), burst (radiating lines), scribble (chaotic), sketchout (rough rectangle outline). Tags: css, marker, highlight, text, emphasis</css-marker-patterns>
 </rules>
 

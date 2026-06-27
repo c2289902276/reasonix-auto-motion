@@ -1,10 +1,10 @@
 ---
 name: hyperframes-creative
-description: "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`."
+description: "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, beat planning, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`."
 ---
 # HyperFrames Creative
 
-Brand, pacing, style, narration, and composition direction. Use after the technical contract from `hyperframes-core` is in place.
+Brand, pacing, style, and composition direction. Use after the technical contract from `hyperframes-core` is in place.
 
 For motion patterns, scene blueprints, transitions, and CSS marker effects, use `hyperframes-animation` — this skill is intentionally non-animation.
 
@@ -42,20 +42,13 @@ For motion patterns, scene blueprints, transitions, and CSS marker effects, use 
 | Post-authoring spec verification (colors, type, corners, spacing, depth) | `references/design-adherence.md`               |
 | High-level motion guardrails and GSAP-quality rules                      | `references/motion-principles.md`              |
 | Font selection, pairings, rendered-video type guardrails                 | `references/typography.md`                     |
-| Script pacing, tone, openings, number pronunciation                      | `references/narration.md`                      |
-| Precomputed audio bands mapped to motion                                 | `references/audio-reactive.md`                 |
 
 ## Scripts
 
 - `scripts/contrast-report.mjs` — inspect contrast warnings from rendered frames.
-- `scripts/extract-audio-data.py` — pre-extract audio bands for audio-reactive compositions.
 - `scripts/package-loader.mjs` — support script for bundled creative tooling.
 
-Run from the repo root with explicit paths, for example:
-
-```bash
-python skills/hyperframes-creative/scripts/extract-audio-data.py <audio-file>
-```
+Run from the repo root with explicit paths.
 
 Animation analysis (`animation-map.mjs`) lives in `hyperframes-animation/scripts/`.
 
@@ -63,5 +56,5 @@ Animation analysis (`animation-map.mjs`) lives in `hyperframes-animation/scripts
 
 - Do not override `hyperframes-core` technical rules.
 - Do not require a design system for a minimal technical composition.
-- Do not add extra scenes, narration, music, captions, or transitions unless the request calls for them or you first propose the expansion.
+- Do not add extra scenes, captions, or transitions unless the request calls for them or you first propose the expansion.
 - Keep recipe references task-specific; do not read every reference for simple edits.

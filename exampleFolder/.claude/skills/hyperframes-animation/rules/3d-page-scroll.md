@@ -216,7 +216,6 @@ Pick one and use it across all scrolls in the scene — mixing easings within on
 
 ## Combinations
 
-- [asr-keyword-glow.md](asr-keyword-glow.md) — highlight elements on the page synced to voiceover word timestamps
 - [multi-phase-camera.md](multi-phase-camera.md) — overall camera zoom while the page scrolls (zoom-in to target section as it lands)
 - [cursor-click-ripple.md](cursor-click-ripple.md) — cursor lands on a UI element within the scrolled-into-view section
 

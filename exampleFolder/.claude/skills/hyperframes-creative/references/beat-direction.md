@@ -64,7 +64,7 @@ How this beat hands off to the next. Specify the type and parameters.
 | Choose shader transition for                                                    | Choose CSS transition for                                                           | Choose hard cut for                                            |
 | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | Reveals, big reaction shots, product/logo unveils, energy shifts, "wow" moments | Continuous camera-motion beats where the scene feels like one move broken into cuts | Rapid-fire lists, percussive edits on the beat, comedic timing |
-| Any moment the music/VO punctuates with a downbeat or SFX hit                   | Beats that ease from one composition into the next with shared motion vocabulary    | Sequences of 3+ quick tempo-matched switches                   |
+| Any moment a key visual element punctuates with a hit                             | Beats that ease from one composition into the next with shared motion vocabulary    | Sequences of 3+ quick tempo-matched switches                   |
 | Brand moments where the transition itself _is_ the visual                       | Minimal/editorial pacing                                                            | Anytime a 0.3-0.8s transition would feel too slow              |
 
 Rule of thumb: if the beat is the _centerpiece_ of the video, shader-transition into it. If the beat is connective tissue, a CSS crossfade is fine. A brand reel of 5-7 beats usually wants 1-2 shader transitions (the hero reveal + the CTA) — too many flatten their impact.
@@ -133,13 +133,6 @@ What's in foreground, midground, and background. Every beat should have at least
 
 - "BG: dark navy fill + subtle radial glow. MG: stat cards with drop shadow. FG: brand logo bottom-right."
 
-### SFX cues
-
-What sounds at what moment:
-
-- "On the capture pulse — a soft, warm analog shutter click."
-- "Left side carries a faint low drone. On fold: drone cuts. Silence. Then a single clean chime."
-
 ---
 
 ## Rhythm Planning
@@ -151,7 +144,7 @@ Before writing HTML, declare your scene rhythm: which scenes are quick hits, whi
 Questions that drive rhythm decisions:
 
 - What emotional journey should the viewer take? Where is the peak moment?
-- Where does the narration land its heaviest emphasis? That's usually where energy should peak.
+- Where does the headline or key copy land its heaviest emphasis? That's usually where energy should peak.
 - What does the brand's own visual pacing suggest — unhurried or urgent?
 - How many beats can the duration actually support without feeling rushed or padded?
 

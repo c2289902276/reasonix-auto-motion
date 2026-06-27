@@ -200,7 +200,7 @@ Pair with `sine-wave-loop` after expansion lands — keeps elements alive instea
 
 ## Key Principles
 
-- **Driver vs driven** — if the burst stands on its own, use a per-item stagger; if it shadows another animation (counter, audio beat), share the same eased progress so they read as one beat
+- **Driver vs driven** — if the burst stands on its own, use a per-item stagger; if it shadows another animation (counter, scroll position), share the same eased progress so they read as one beat
 - **Stagger inside the 0.04-0.08 s band** — too tight and the cluster never separates visually, too loose and the burst feels lazy
 - **Out-easing for the expansion** — out-easing makes items "fling" out then settle. In-easing looks like they're sucked back in mid-air
 - **Element count: 3-8** — fewer feels empty, more causes visual chaos at the center where cards overlap mid-expansion

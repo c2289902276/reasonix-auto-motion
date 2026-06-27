@@ -18,15 +18,15 @@ The root should be `position: relative`, have explicit pixel dimensions, and hid
 
 ## Clip Attributes
 
-Timed child elements are clips. **`class="clip"` is required on visible timed elements** (`<div>`, `<img>`, etc.) — without it the runtime keeps the element visible for the whole composition, ignoring `data-start` / `data-duration`. Omit on `<video>` (framework manages visibility directly) and `<audio>` (no visual).
+Timed child elements are clips. **`class="clip"` is required on visible timed elements** (`<div>`, `<img>`, etc.) — without it the runtime keeps the element visible for the whole composition, ignoring `data-start` / `data-duration`. Omit on `<video>` (framework manages visibility directly).
 
-**Clips must be DIRECT children of the composition root.** A clip nested inside a wrapper `<div>` is not registered — most visibly, a `<video>` in a wrapper is never seeked/decoded and renders black. To wrap/transform a clip, put the wrapper _inside_ the clip, or animate the clip element itself; do not wrap the clip. (`<video>`/`<audio>` additionally must be at the **host** root, never in a sub-comp `<template>` — see `variables-and-media.md`.)
+**Clips must be DIRECT children of the composition root.** A clip nested inside a wrapper `<div>` is not registered — most visibly, a `<video>` in a wrapper is never seeked/decoded and renders black. To wrap/transform a clip, put the wrapper _inside_ the clip, or animate the clip element itself; do not wrap the clip. (`<video>` additionally must be at the **host** root, never in a sub-comp `<template>` — see `variables-and-media.md`.)
 
 | Attribute          | Required                                        | Meaning                                                                                                                           |
 | ------------------ | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `id`               | Yes                                             | Stable DOM ID for linting, timeline targets, and debugging.                                                                       |
 | `data-start`       | Yes                                             | Start time in seconds, or a supported clip-time reference.                                                                        |
-| `data-duration`    | Required for `div`, `img`, and sub-compositions | Duration in seconds. Video/audio can default to media duration when known.                                                        |
+| `data-duration`    | Required for `div`, `img`, and sub-compositions | Duration in seconds. Video can default to media duration when known.                                                              |
 | `data-track-index` | Yes                                             | Timeline track. Clips on the same track must not overlap.                                                                         |
 | `data-media-start` | No                                              | Offset into the media source, in seconds.                                                                                         |
 | `data-volume`      | No                                              | Static audio volume, `0` to `1`, default `1`. For fades, animate `volume` on the timeline instead (see `variables-and-media.md`). |

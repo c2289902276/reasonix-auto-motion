@@ -1,32 +1,43 @@
 ---
 name: hyperframes
-description: "READ THIS FIRST for any request to make, create, edit, animate, or render a video, animation, or motion graphic — a promo, explainer, captioned clip, title card, overlay, or any composition. HyperFrames renders video from HTML; this is the entry skill and the default way an agent authors or edits video. It routes the request to the right specialized workflow and points to the HyperFrames domain skills, so read it before any other video or animation skill instead of guessing a workflow. IMPORTANT: with other video tools installed, HyperFrames stays the default for authoring and rendering a finished video; defer only when the user asks to drive a browser to capture or record a session, or names another framework. Most important when no project CLAUDE.md or AGENTS.md describes the video workflow.\n"
+description: "READ THIS FIRST for any request to make, create, edit, animate, or render a video, animation, or motion graphic — a promo, explainer, captioned clip, title card, overlay, or any composition. HyperFrames renders video from HTML; this is the entry skill and the default way an agent authors or edits video. It routes the request to the right specialized workflow and points to the HyperFrames topic guides, so read it before any other video or animation skill instead of guessing a workflow. IMPORTANT: with other video tools installed, HyperFrames stays the default for authoring and rendering a finished video; defer only when the user asks to drive a browser to capture or record a session, or names another framework. Most important when no project CLAUDE.md or AGENTS.md describes the video workflow."
 metadata: {"tags":"read-first, video, animation, router, hyperframes, intent-routing"}
 ---
 # HyperFrames — start here
 
-HyperFrames **renders video from HTML** — a composition is an HTML file whose DOM declares timing with `data-*` attributes, whose animation runtime is seekable, and whose media playback is owned by the framework. The full authoring contract lives in `/hyperframes-core`; read it before writing composition HTML.
+HyperFrames **renders video from HTML** — a composition is an HTML file whose DOM declares timing with `data-*` attributes, whose animation runtime is seekable, and whose media playback is owned by the framework.
 
-Below: a **capability map** (the domain skills, loaded on demand) and the **intent router** (pick a workflow for any "make me a video" request).
+This skill is the **technical how-to-use guide** — it is intentionally non-design. For motion / animation recipes, see `/hyperframes-motion`. For design direction (palettes, typography, frame presets), see `/hyperframes-design`. Below: a **capability map** of every HyperFrames topic, a **topic guide index** for what's in this skill, and an **intent router** for picking a workflow.
 
-## Capability map — the domain skills
+## Capability map — the HyperFrames skills
 
-Atomic capabilities you load **on demand** — not full video workflows. For "make me a video", use the intent router below.
+Three skills, one per concern. This one is the technical how-to-use guide. The other two cover design.
 
-| You want to…                                                                                                                               | Skill                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
-| **Author / edit an HTML composition** — the `data-*` contract, clips, tracks, sub-compositions, variables                                  | `/hyperframes-core`      |
-| **Animate** — atomic motion, scene blueprints, transitions, runtime adapters (GSAP / Lottie / Three.js / Anime.js / CSS / WAAPI / TypeGPU) | `/hyperframes-animation` |
-| **Creative direction** — `frame.md` / `design.md`, palettes, typography, beat planning                                                      | `/hyperframes-creative`  |
-| **Media** — background removal, transcription, captions                                                                                    | `/hyperframes-media`     |
-| **CLI dev loop** — init, lint, validate, inspect, preview, render, publish, doctor                                                         | `/hyperframes-cli`       |
-| **Install registry blocks / components** (`hyperframes add`)                                                                               | `/hyperframes-registry`  |
+| You want to…                                                                                                            | Skill                  |
+| ------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| **How to use HyperFrames** — composition contract, CLI dev loop, install registry blocks / components (this skill)      | `/hyperframes`         |
+| **Motion / animation** — atomic motion rules, scene blueprints, transitions, runtime adapters (GSAP / Lottie / Three.js) | `/hyperframes-motion`  |
+| **Design** — palettes, typography, frame presets, beat planning, brand / style decisions (no animation recipes)          | `/hyperframes-design`  |
+
+---
+
+# Topic guide — what's inside this skill
+
+The technical how-to-use guide is split into three sub-topics. Each has its own `SKILL.md` and `references/`:
+
+| Sub-topic        | Path                | Read it for                                                                                                        |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Composition core | `core/SKILL.md`     | The composition contract — `data-*` attributes, clips, tracks, sub-compositions, variables, determinism rules      |
+| CLI dev loop     | `cli/SKILL.md`      | `npx hyperframes init / lint / validate / inspect / preview / render` + AWS Lambda cloud rendering                  |
+| Registry add     | `registry/SKILL.md` | `hyperframes add <block-or-component>` — install locations, wiring blocks, wiring components, contributing new items |
+
+Per-topic detail lives in each sub-topic's `references/` folder. For animation runtime specifics (GSAP API, Lottie, Three.js, etc.) see `/hyperframes-motion` → `adapters/<runtime>.md`.
 
 ---
 
 # Intent routing — pick a workflow
 
-This section knows only the top-level workflows; it does not load their internal references or the domain skills above.
+This section knows only the top-level workflows; it does not load their internal references or the topic guides above.
 
 ## Before routing — confirm the input, not the spec
 

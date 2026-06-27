@@ -23,7 +23,7 @@ A short design-led motion graphic. **Asset-first**: decide the asset strategy an
 
 ## Categories — split by the search decision
 
-`plan`'s **first decision is: does this need a search?** That fork splits the categories into two groups; then the specific category is picked — for search-driven, **by the type of content the search returns**. Each category is one `categories/<id>/module.md` (its planning + build rules); the shared motion vocabulary lives in `references/motion-vocabulary.md` (→ `hyperframes-animation` rules/blueprints + registry blocks).
+`plan`'s **first decision is: does this need a search?** That fork splits the categories into two groups; then the specific category is picked — for search-driven, **by the type of content the search returns**. Each category is one `categories/<id>/module.md` (its planning + build rules); the shared motion vocabulary lives in `references/motion-vocabulary.md` (→ `hyperframes-motion` rules/blueprints + registry blocks).
 
 **Form categories — no search; the user supplies the content:**
 
@@ -97,7 +97,7 @@ Degrade gracefully: if a search/provider is unavailable, the category falls back
 
 ### Step 3 — Design (subagent: Director Part 2)
 
-Dispatch a subagent (prompt = `agents/director.md` Part 2 + dispatch context including the resolved `assets/index.md` if Step 2 ran + `catalog-map.md`). It designs the shot **around the available assets**: pick the catalog block(s) + the `hyperframes-animation` rules/blueprints, the layout, the motion, beats, and (for `asset-fusion`) the `element_positions` + eyedropper palette. Finalizes `shot-plan.json` (`content.block` + `content.customize` + per-category content).
+Dispatch a subagent (prompt = `agents/director.md` Part 2 + dispatch context including the resolved `assets/index.md` if Step 2 ran + `catalog-map.md`). It designs the shot **around the available assets**: pick the catalog block(s) + the `hyperframes-motion` rules/blueprints, the layout, the motion, beats, and (for `asset-fusion`) the `element_positions` + eyedropper palette. Finalizes `shot-plan.json` (`content.block` + `content.customize` + per-category content).
 
 ### Step 4 — Build (subagent: Builder, reuse-first)
 
@@ -126,7 +126,7 @@ Report the final output (`renders/video.mp4`, or the `.webm` / `.mov` overlay va
 (cd "$PROJECT_DIR" && npx hyperframes preview)   # Studio UI; or `npx hyperframes play` for a shareable link
 ```
 
-Flags live in the `hyperframes-cli` skill (`references/preview-render.md`).
+Flags live in the `/hyperframes/cli` skill (`references/preview-render.md`).
 
 ## Resume table
 
@@ -141,7 +141,7 @@ Flags live in the `hyperframes-cli` skill (`references/preview-render.md`).
 ## Design notes (maintainers — execution does not read this)
 
 - **Asset-first rationale:** sourcing is front-loaded and informs shot design (the RWA flow: analyze → search → review → compose). the search-driven categories (`webpage`/`news`/`tweet`) and `asset-fusion` lean on the asset search (news/web/tweet/image).
-- **Reuse-first:** the in-ecosystem analog of LLM-generated templates is "compose catalog blocks + `hyperframes-animation` rules". HF's paused GSAP timeline ≙ Remotion's `useCurrentFrame`.
+- **Reuse-first:** the in-ecosystem analog of LLM-generated templates is "compose catalog blocks + `hyperframes-motion` rules". HF's paused GSAP timeline ≙ Remotion's `useCurrentFrame`.
 - **Category module contract:** one `categories/<id>/module.md` (planning + build), sharing `references/motion-vocabulary.md` (+ optional eval). Adding a category = drop the folder + register its classifier line in `agents/director.md` + its row in `catalog-map.md`; the phase pipeline is untouched.
 - **Directory shape:**
   ```

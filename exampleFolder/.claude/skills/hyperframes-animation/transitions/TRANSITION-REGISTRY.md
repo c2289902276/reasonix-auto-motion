@@ -1,10 +1,9 @@
 # Transition Registry — machine source of truth
 
 Single source of truth for **PLV scene-to-scene transitions**. The deterministic
-injector (`product-launch-video/scripts/inject-transitions.mjs`) reads the JSON
-block below and stamps the matching `gsap_template` onto the master timeline.
-The planner (`product-launch-video/agents/visual-design.md`) names a transition
-by its `name`; everything else is harness.
+injector reads the JSON block below and stamps the matching `gsap_template`
+onto the master timeline. The planner names a transition by its `name`;
+everything else is harness.
 
 This file is **not** the catalog of all transitions — that is `catalog.md` +
 `css-*.md` (≈40 CSS + shader). This registry is the curated subset that is

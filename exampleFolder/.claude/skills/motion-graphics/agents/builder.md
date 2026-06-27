@@ -37,4 +37,4 @@ Opacity-gate delayed elements (set hidden until their entrance). Clamp at tween 
 
 ## Verify-fix
 
-`hyperframes lint` → `inspect` → `render -q draft`. On failure, fix the offending element + re-run. (Remotion-sourced prior art is graded by the `/remotion-to-hyperframes` SSIM harness.) **Never change a fixed `data-duration` during repair.**
+`hyperframes lint` → `inspect` → `render -q draft`. On failure, fix the offending element + re-run. **Never change a fixed `data-duration` during repair.**

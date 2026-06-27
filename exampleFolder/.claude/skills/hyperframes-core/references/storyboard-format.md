@@ -53,7 +53,7 @@ The read API also adds `srcExists` per frame and attaches the optional `SCRIPT.m
 
 ## `SCRIPT.md` (out of scope here)
 
-Optional, free-form, **not parsed into the manifest** — the locked-caption-text file. Its format is defined in the generating workflow (see `product-launch-video` and `website-to-video`). The per-frame `caption` above is the storyboard's own caption guide.
+Optional, free-form, **not parsed into the manifest** — the locked-caption-text file. Its format is defined in the generating workflow. The per-frame `caption` above is the storyboard's own caption guide.
 
 ## Example
 

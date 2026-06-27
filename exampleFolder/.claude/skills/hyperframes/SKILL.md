@@ -38,23 +38,20 @@ Routing needs to know **what the video is about** — its input and subject. If 
 
 ## Workflow cheat-sheet
 
-| Workflow                   | Use it for                                                                                                                                                             |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/product-launch-video`    | Marketing / launching / promoting a **product** — from its URL, a brief, or a script (even if the site is only named)                                                  |
-| `/website-to-video`        | Turning a **general website** into a video — site tour, portfolio / landing-page showcase, social clip from the site's visuals                                         |
-| `/faceless-explainer`      | **Explaining a topic / concept** from text — no product, no URL; every visual is LLM-invented                                                                          |
-| `/pr-to-video`             | A **GitHub PR / code change** → changelog / feature-reveal / fix / refactor explainer                                                                                  |
-| `/embedded-captions`       | Adding **captions / subtitles** to an existing talking-head video (footage untouched)                                                                                  |
-| `/talking-head-recut`      | Packaging an existing talking-head video with **designed graphic overlays** — lower-thirds, data callouts, kinetic titles, pull-quotes                                 |
-| `/motion-graphics`         | A short, **design-led motion graphic** — kinetic type, a stat / chart hit, a logo sting, a lower-third overlay                                                       |
-| `/slideshow`               | A **presentation / pitch deck / interactive deck** — discrete slides, fragments, branching, hotspots; output is a navigable **deck**, not a rendered video             |
-| `/general-video`           | **Anything else** — longer or multi-scene pieces, a static loop / poster, a custom composition                                                                         |
-| `/remotion-to-hyperframes` | **Porting an existing Remotion (React) composition** to HyperFrames (migration, not creation)                                                                          |
+| Workflow              | Use it for                                                                                                                                                             |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/faceless-explainer` | **Explaining a topic / concept** from text — no product, no URL; every visual is LLM-invented                                                                          |
+| `/pr-to-video`        | A **GitHub PR / code change** → changelog / feature-reveal / fix / refactor explainer                                                                                  |
+| `/embedded-captions`  | Adding **captions / subtitles** to an existing talking-head video (footage untouched)                                                                                  |
+| `/talking-head-recut` | Packaging an existing talking-head video with **designed graphic overlays** — lower-thirds, data callouts, kinetic titles, pull-quotes                                 |
+| `/motion-graphics`    | A short, **design-led motion graphic** — kinetic type, a stat / chart hit, a logo sting, a lower-third overlay                                                       |
+| `/slideshow`          | A **presentation / pitch deck / interactive deck** — discrete slides, fragments, branching, hotspots; output is a navigable **deck**, not a rendered video             |
+| `/general-video`      | **Anything else** — longer or multi-scene pieces, a static loop / poster, a custom composition                                                                         |
 
 **Disambiguation (only where confusable):**
 
 - **Motion-first** (under ~10s, the motion _is_ the message) → `/motion-graphics`, regardless of input.
-- **A URL or script** — markets a specific product (even just naming the site) → `/product-launch-video`; a general non-product site → `/website-to-video`; a GitHub PR link → `/pr-to-video`; explains a concept with no product / site → `/faceless-explainer`. Genuinely unclear product-vs-topic, or launch-vs-general-site → ask one question.
+- **A URL or script** — a GitHub PR link → `/pr-to-video`; explains a concept with no product / site → `/faceless-explainer`. Genuinely unclear input → ask one question.
 - **Existing footage** — plain spoken-word subtitles → `/embedded-captions`; designed overlay cards → `/talking-head-recut`. Neither edits the footage itself (re-timing / recolor / reframe / reorder is NLE editing — out of scope).
 - **A presentation / pitch deck / interactive deck** (discrete slides, navigation, presenter mode) → `/slideshow` — output is a navigable deck, not a rendered video. An explicit "slideshow" request proceeds directly; an adjacent trigger ("deck / slides / presentation / convert this page") makes `/slideshow` confirm it's a slideshow before authoring, and switch to the appropriate non-slideshow workflow if not.
 - **Length is a guide, not a gate** — intent picks the workflow; go to `/general-video` only when the piece is clearly longer than ~3 min, or is a static / loop / custom format.
@@ -70,21 +67,9 @@ After they run it, re-read the workflow's skill and continue.
 
 ## Workflow details
 
-### `/product-launch-video`
-
-- **Input:** A product being marketed — **(a)** a product URL (crawled with headless Chrome for assets + brand tokens), **(b)** a script / brief that names the product's site even without a link (PLV resolves + crawls it, unless the user opts out), or **(c)** a script with no derivable site / "don't scrape" (no-capture mode — pick a style preset that supplies palette + design system). A supplied script can be the **verbatim** text or **restructured** per scene — PLV asks.
-- **Output:** product launch / SaaS promo as a HyperFrames composition → MP4. (sweet spot 30–90s).
-- **Triggers:** "launch video for X", "promo for our site", "explain my SaaS in a minute", "turn my script into a 60s promo", "text-only launch video, don't scrape".
-
-### `/website-to-video`
-
-- **Input:** A **general website / URL** to turn into a video — when the goal is a video _of_ the site, not a product launch. Captured with headless Chrome for real screenshots + brand assets.
-- **Output:** a site tour / portfolio / landing-page showcase / social clip built from the site's own visuals → MP4.
-- **Triggers:** "turn this website into a video", "site tour from ", "social clip from our homepage", "I just have a URL — make something".
-
 ### `/faceless-explainer`
 
-- **Input:** Arbitrary text — a topic, article, or notes — being **explained**, with no product being marketed and no site to capture. (Forked from `/product-launch-video`; no headless Chrome.)
+- **Input:** Arbitrary text — a topic, article, or notes — being **explained**, with no product being marketed and no site to capture.
 - **Output:** faceless explainer → MP4, every visual LLM-invented per scene (typography / abstract / diagram / data-viz); ships the `pin-and-paper` preset. (sweet spot 30–90s).
 - **Triggers:** "faceless explainer about X", "explain how DNS works as a video", "turn this article into an explainer", "explainer from my notes".
 
@@ -123,9 +108,3 @@ After they run it, re-read the workflow's skill and continue.
 - **Input:** Anything not above — a creative brief, a single element to animate, an edit to a composition you're building. Input- and length-agnostic.
 - **Output:** a HyperFrames composition (any length / format) via the original flow: design system → prompt expansion → plan → layout-before-animation → build (delegating to the `hyperframes-`\* skills) → validate.
 - **Triggers:** "make a title card", "animate this", "a longer brand / sizzle reel", "a multi-scene composition", "a static loop / poster", any "make a video" that fits no row above.
-
-### `/remotion-to-hyperframes`
-
-- **Input:** An existing **Remotion** (React) composition's source — the user **explicitly** asks to port / convert / migrate it. One-way (Remotion → HyperFrames); not creation-from-input. A passing mention of Remotion is not a trigger.
-- **Output:** a HyperFrames HTML composition translated from the Remotion source, graded against the Remotion render (SSIM eval harness + tiered test corpus).
-- **Triggers:** "port my Remotion project to HyperFrames", "convert this Remotion comp", "migrate from Remotion".

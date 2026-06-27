@@ -22,7 +22,6 @@ For motion patterns, scene blueprints, transitions, and CSS marker effects, use 
    - Ready-made frame-preset (optional) → `frame-presets/` (adopt a `FRAME.md` as `frame.md`; see `references/design-spec.md`)
    - Named style or mood → `references/visual-styles.md`
    - Fast defaults → `references/house-style.md`
-   - Interactive selection → `references/design-picker.md`
 3. For multi-scene work, plan beats and rhythm before writing HTML → `references/beat-direction.md`. For scene transitions, jump to `hyperframes-animation/transitions/`.
 4. For motion-heavy work, read `references/motion-principles.md` (high-level guardrails), then go to `hyperframes-animation` for atomic rules.
 

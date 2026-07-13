@@ -4,17 +4,17 @@
 
 # auto-motion
 
-`auto-motion` is a workflow template that turns an SRT transcript into multiple motion-graphics scenes and stitches them into a vertical video. Provide `transcription.srt`, then run Codex with the instructions in `PROMPT.md`; Codex segments the transcript, calls Claude Code scene by scene, and uses FFmpeg to produce `final.mp4`.
+`auto-motion` is a workflow template that turns an SRT transcript into multiple motion-graphics scenes and stitches them into a vertical video. Provide `transcription.srt`, then run Reasonix with the instructions in `PROMPT.md`; Reasonix segments the transcript, calls `reasonix run` scene by scene, and uses FFmpeg to produce `final.mp4`.
 
 ## Run Evidence
 
-Below is a screenshot from a real run: a multi-scene job has been running for 1 hour and 36 minutes, with Codex waiting for Claude Code to finish implementation and rendering for later scenes.
+Below is a screenshot from a real run: a multi-scene job has been running for 1 hour and 36 minutes, with the orchestrator waiting for the executor to finish implementation and rendering of later scenes.
 
-<img src="./readme-assets/evidence.png" alt="auto-motion long-running Codex and Claude Code workflow evidence" width="720" />
+<img src="./readme-assets/evidence.png" alt="auto-motion long-running orchestration and execution workflow evidence" width="720" />
 
 ## Architecture
 
-### 1. Orchestration: Codex + PROMPT.md
+### 1. Orchestration: Reasonix + PROMPT.md
 
 `PROMPT.md` defines the full automation flow:
 
@@ -22,12 +22,12 @@ Below is a screenshot from a real run: a multi-scene job has been running for 1 
 - Split the transcript into semantic scenes that continuously cover the full subtitle timeline.
 - Create independent scene folders such as `scenes/scene-001` and `scenes/scene-002`.
 - Copy the execution template and HyperFrames skills from `exampleFolder`.
-- Call Claude Code sequentially to generate each scene MP4.
+- Call `reasonix run` sequentially to generate each scene MP4.
 - Check scene duration and output specs, then stitch all scene videos into `final.mp4` with FFmpeg.
 
-### 2. Execution: Claude Code + run-claude-ai.sh
+### 2. Execution: Reasonix + run-reasonix.sh
 
-`exampleFolder/run-claude-ai.sh` is the single-scene execution template. Codex fills in the scene-specific values:
+`exampleFolder/run-reasonix.sh` is the single-scene execution template. The orchestrator fills in the scene-specific values:
 
 - `SCENE_ID`
 - `SCENE_DURATION_SECONDS`
@@ -35,21 +35,21 @@ Below is a screenshot from a real run: a multi-scene job has been running for 1 
 - `OUTPUT_FILE`
 - `FULL_TRANSCRIPT_PATH`
 
-The script invokes Claude Code non-interactively through `claude -p` and requires fixed progress messages. Raw logs, stderr logs, and user-readable progress are written into each scene folder:
+The script invokes Reasonix non-interactively through `reasonix run` and requires fixed progress messages. Raw logs, stderr logs, and user-readable progress are written into each scene folder:
 
-- `claude-<scene>.stream.jsonl`
-- `claude-<scene>.stderr.log`
-- `claude-<scene>.user.log`
+- `reasonix-<scene>.stdout.log`
+- `reasonix-<scene>.stderr.log`
+- `reasonix-<scene>.user.log`
 
 ### 3. Motion Authoring: HyperFrames
 
-`exampleFolder/.claude/skills/` contains the HyperFrames skills used by Claude Code. Claude Code writes an HTML animation project with those skills and renders a 1080x1440, 30fps, silent MP4 with no audio track.
+`exampleFolder/.claude/skills/` contains the HyperFrames skills used by Reasonix. Reasonix writes an HTML animation project with those skills and renders a 1080x1440, 30fps, silent MP4 with no audio track. The skills directory uses the Claude Code-compatible format; Reasonix reads `.claude/skills/<name>/SKILL.md` natively, loading them with zero changes.
 
 ### 4. Validation: auto-test
 
-`auto-test/run.sh` provides an end-to-end test entry point. It creates a temporary workspace, copies the test transcript and templates, asks Codex to run the full flow, then uses `auto-test/validate.sh` to verify:
+`auto-test/run.sh` provides an end-to-end test entry point. It creates a temporary workspace, copies the test transcript and templates, asks Reasonix to run the full flow, then uses `auto-test/validate.sh` to verify:
 
-- Required Claude Code progress messages are present.
+- Required Reasonix progress messages are present.
 - The scene MP4 and `final.mp4` exist.
 - Video resolution is 1080x1440.
 - Frame rate is approximately 30fps.
@@ -58,20 +58,21 @@ The script invokes Claude Code non-interactively through `claude -p` and require
 
 ## Prerequisites
 
-Install and sign in to the following tools first:
+Install and configure the following tools first:
 
-- [Codex CLI](https://developers.openai.com/codex/cli)
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+- [Reasonix CLI](https://github.com/esengine/DeepSeek-Reasonix) (`npm i -g reasonix`; Node ≥ 22)
+- DeepSeek API key: run `reasonix setup` to save it to `~/.reasonix/.env`, or `export DEEPSEEK_API_KEY=sk-...`
 - Node.js 22 or newer
 - FFmpeg and FFprobe
 - `jq`
-- Network access, so Claude Code can search for references, install dependencies, or download brand visual assets
+- Network access, so Reasonix can search for references, install dependencies, or download brand visual assets
+- Git Bash on Windows for the bash runtime
 
 Run these checks before starting:
 
 ```bash
-codex --version
-claude --version
+reasonix --version
+reasonix doctor
 node --version
 ffmpeg -version
 ffprobe -version
@@ -93,22 +94,18 @@ cp /path/to/transcription.srt ./transcription.srt
 From the repository root:
 
 ```bash
-codex exec \
-  --cd . \
-  --sandbox danger-full-access \
-  --ask-for-approval never \
-  - < PROMPT.md
+reasonix run "$(cat PROMPT.md)"
 ```
 
-Codex reads `PROMPT.md`, splits the transcript, creates scene folders, calls Claude Code scene by scene, and produces:
+Reasonix reads `PROMPT.md`, splits the transcript, creates scene folders, calls `reasonix run` scene by scene, and produces:
 
 ```text
 scenes/
   scene-001/
     scene-001.mp4
-    claude-scene-001.stream.jsonl
-    claude-scene-001.stderr.log
-    claude-scene-001.user.log
+    reasonix-scene-001.stdout.log
+    reasonix-scene-001.stderr.log
+    reasonix-scene-001.user.log
   scene-002/
     scene-002.mp4
 final.mp4
@@ -139,8 +136,8 @@ Test artifacts are written to `auto-test/.tmp/`, which is ignored by Git.
 ├── PROMPT.md                    # Main workflow instructions
 ├── transcription.srt            # Input transcript
 ├── exampleFolder/
-│   ├── run-claude-ai.sh          # Single-scene Claude Code template
-│   └── .claude/skills/           # HyperFrames skills
+│   ├── run-reasonix.sh          # Single-scene Reasonix template
+│   └── .claude/skills/           # HyperFrames skills (Claude Code-compatible format)
 ├── auto-test/
 │   ├── run.sh                    # End-to-end test entry point
 │   ├── validate.sh               # Video validation script
@@ -150,7 +147,8 @@ Test artifacts are written to `auto-test/.tmp/`, which is ignored by Git.
 
 ## Notes
 
-- Only one Claude Code call should run at a time; scene rendering is intentionally sequential.
+- Only one `reasonix run` call should run at a time; scene rendering is intentionally sequential.
 - Scenes must continuously cover the subtitle timeline, and the sum of scene durations should match the transcript duration.
-- If a scene fails, inspect its `stderr.log`, `stream.jsonl`, and `user.log` first.
+- If a scene fails, inspect its `stderr.log`, `stdout.log`, and `user.log` first.
 - If scene video specs differ, normalize them before stitching.
+- `reasonix run` acquires autonomous execution permissions under a non-interactive terminal with no extra flag.

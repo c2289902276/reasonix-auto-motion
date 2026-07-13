@@ -14,9 +14,9 @@ TEXT_EOF
 )"
 fi
 
-RAW_LOG="${RAW_LOG:-claude-${SCENE_ID}.stream.jsonl}"
-STDERR_LOG="${STDERR_LOG:-claude-${SCENE_ID}.stderr.log}"
-USER_LOG="${USER_LOG:-claude-${SCENE_ID}.user.log}"
+RAW_LOG="${RAW_LOG:-reasonix-${SCENE_ID}.stdout.log}"
+STDERR_LOG="${STDERR_LOG:-reasonix-${SCENE_ID}.stderr.log}"
+USER_LOG="${USER_LOG:-reasonix-${SCENE_ID}.user.log}"
 
 if [[ "$SCENE_DURATION_SECONDS" == "TODO_SECONDS" || "$SCENE_TEXT" == TODO:* ]]; then
   echo "Please fill SCENE_DURATION_SECONDS and SCENE_TEXT before running." >&2
@@ -47,7 +47,7 @@ ${SCENE_TEXT}
 上下文使用规则：
 - 请先阅读${FULL_TRANSCRIPT_PATH}，用于理解当前镜头在完整文案中的语义位置。
 - 不需要把镜头文案逐字放进画面；可使用图形、图标、概念性文字或少量标签表达含义。
-- 如果有名词你不了解，必须联网搜索了解并判断是否存在明确 logo 或品牌视觉资产，若是必须联网下载svg或者图片资源，用专业 logo 表达意象。
+- 如果有名词你不了解，必须联网搜索了解并判断是否存在明确 logo 或品牌视觉资产，若是必须联网下载 svg 或图片资源，用专业 logo 表达意象。但联网搜索请走低成本子代理：在 shell 里执行 `reasonix subagent run research-asset --model opencode-go/deepseek-v4-flash "<查询主题>"`，它绑 DeepSeek-V4-Flash、返回结构化 JSON 资产清单；不要用你自己（V4-Pro）的额度去搜同样的东西。- 如下载了视觉资源后需要确认其中 logo 主体、识别文字、判断是否适合作为动画元素，调用 `reasonix subagent run describe-asset --model opencode-go/qwen3.7-plus "<本地资源路径>"`，它绑 Qwen3.7-Plus 多模态、返回视觉描述 JSON；你无视觉能力，不要自己猜。
 
 实现要求：
 - 使用 hyperframes 完成实现和渲染，可结合 GSAP 等动效库。
@@ -69,22 +69,8 @@ ${SCENE_TEXT}
 PROMPT_EOF
 )"
 
-claude -p \
-  --dangerously-skip-permissions \
-  --verbose \
-  --output-format stream-json \
-  --prompt-suggestions false \
-  "$PROMPT" \
+reasonix run --model opencode-go/deepseek-v4-pro "$PROMPT" \
   2>"$STDERR_LOG" \
 | tee "$RAW_LOG" \
-| jq -Rr --unbuffered '
-  fromjson?
-  | select(.type=="assistant")
-  | .message.content[]?
-  | select(.type=="text")
-  | .text
-  | split("\n")[]
-  | select(startswith("[[USER_MESSAGE]]"))
-  | sub("^\\[\\[USER_MESSAGE\\]\\]"; "")
-' \
+| grep --line-buffered '\[\[USER_MESSAGE\]\]' \
 | tee "$USER_LOG"

@@ -1,0 +1,21 @@
+# Auto-Motion 项目级 Reasonix 配置
+# 本文件只覆盖必要项，不重复声明 provider —— opencode 聚合 provider 已在
+# ~/AppData/Roaming/reasonix/config.toml 中声明为 `opencode-go`（key:present，
+# api_key_env = OPENCODE_GO_API_KEY）。
+#
+# Resolution order: flag > ./reasonix.toml > user config.toml > built-in defaults.
+# 所有 model 引用都用全名 `opencode-go/<model-id>`，避免被 user config 里
+# key:missing 的直连 deepseek-flash/pro 截胡。
+
+default_model = "opencode-go/glm-5.2"   # 项目默认 = 调度层模型；执行层 --model 会显式覆盖
+
+# 子代理按 profile 绑模型 —— Reasonix SPEC §3.10
+[agent.subagent_models]
+"research-asset"  = "opencode-go/deepseek-v4-flash"   # 轻联网搜索
+"describe-asset"  = "opencode-go/qwen3.7-plus"         # 多模态视觉理解
+
+# 注意：以下任何模型行为本文件都不再重复声明，沿用 user config：
+#   [['providers']] opencode-go  → base_url https://opencode.ai/zen/go/v1
+#   context_window = 1000000
+#   vision_models 含 qwen3.7-plus / kimi-k2.7-code / mimo-v2.5
+# 如要按模型细分 context_window 或价格，参考 SPEC §3.1 单模型条目格式最后再追加。

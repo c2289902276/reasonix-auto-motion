@@ -1,9 +1,17 @@
 import base64
+import os
 import sys
 import requests
 
+# API key 从环境变量读取，避免硬编码泄露。
+# 设置方式：  export IMAGEGEN_API_KEY=sk-...   (bash)
+#            $env:IMAGEGEN_API_KEY = "sk-..."  (PowerShell)
+_api_key = os.environ.get("IMAGEGEN_API_KEY")
+if not _api_key:
+    sys.exit("IMAGEGEN_API_KEY environment variable is not set; refusing to run.")
+
 url = "https://api.minimaxi.com/v1/image_generation"
-headers = {"Authorization": "Bearer sk-cp-sNZzrMUINjaI6uOVtgwGGlanDktGIbImMSjtv32F4tyfywBpRCzT55D9kG8-y1e5PTdhXXBNd4V5axWpe-cabRr4nlKaFmxb7TAfI1Tbk3sxRe_HPC9WAZw"}
+headers = {"Authorization": f"Bearer {_api_key}"}
 
 prompt = sys.argv[1]
 width = int(sys.argv[2])

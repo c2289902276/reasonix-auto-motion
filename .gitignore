@@ -1,5 +1,29 @@
+# 端到端测试临时产物
 auto-test/.tmp/
+
+# 渲染产物（调度层自动生成）
+scenes/
+final.mp4
+
+# Reasonix 本地 session / 自动记忆（项目级运行残留）
+.reasonix/sessions/
+.reasonix/memory/
+.reasonix/archive/
+.reasonix/autoresearch/
+
+# 用户级 .env（含 API key，绝对不能提交）
+.env
+*.env
+
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# auto-hyper 资源（上游规则保留）
 auto-hyper-/resources/*
 !auto-hyper-/resources/codex.svg
 !auto-hyper-/resources/github.svg

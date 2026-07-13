@@ -2,9 +2,11 @@
   简体中文 | <a href="./README.en.md">English</a>
 </p>
 
-# auto-motion
+# reasonix-auto-motion
 
-`auto-motion` 是一个把字幕稿自动拆分成多段 MG 动画镜头，并拼接成竖屏视频的工作流模板。你只需要准备 `transcription.srt`，然后让 Reasonix 执行 `PROMPT.md` 中的任务说明；Reasonix 会按字幕语义拆镜头，逐个调用 `reasonix run` 生成单镜头动画，最后用 FFmpeg 拼接出 `final.mp4`。
+`reasonix-auto-motion` 是一个把字幕稿自动拆分成多段 MG 动画镜头，并拼接成竖屏视频的工作流模板。你只需要准备 `transcription.srt`，然后让 Reasonix 执行 `PROMPT.md` 中的任务说明；Reasonix 会按字幕语义拆镜头，逐个调用 `reasonix run` 生成单镜头动画，最后用 FFmpeg 拼接出 `final.mp4`。
+
+> **致谢与改造说明**：本项目 fork 自 [vibe-motion/auto-motion](https://github.com/vibe-motion/auto-motion)，感谢原作者的贡献。原项目以 Codex（调度）+ Claude Code（执行）为运行时；本 fork 将运行时替换为 [Reasonix CLI](https://github.com/esengine/DeepSeek-Reasonix)（`reasonix run`），并新增多模型智能路由：调度层走 GLM-5.2、执行层走 DeepSeek-V4-Pro、联网搜索走 DeepSeek-V4-Flash 子代理、多模态视觉识别走 Qwen3.7-Plus 子代理。`.claude/skills/` 下的 HyperFrames 技能零改动兼容。
 
 ## 运行证据
 

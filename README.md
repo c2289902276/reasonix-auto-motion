@@ -8,11 +8,6 @@
 
 > **致谢与改造说明**：本项目 fork 自 [vibe-motion/auto-motion](https://github.com/vibe-motion/auto-motion)，感谢原作者的贡献。原项目以 Codex（调度）+ Claude Code（执行）为运行时；本 fork 将运行时替换为 [Reasonix CLI](https://github.com/esengine/DeepSeek-Reasonix)（`reasonix run`），并新增多模型智能路由：调度层走 GLM-5.2、执行层走 DeepSeek-V4-Pro、联网搜索走 DeepSeek-V4-Flash 子代理、多模态视觉识别走 Qwen3.7-Plus 子代理。`.claude/skills/` 下的 HyperFrames 技能零改动兼容。
 
-## 运行证据
-
-下面是一段真实运行过程截图：多镜头任务已经连续运行 1 小时 36 分钟，调度层正在等待执行层完成后续镜头的代码实现和渲染。
-
-<img src="./readme-assets/evidence.png" alt="auto-motion long-running orchestration and execution workflow evidence" width="720" />
 
 ## 架构
 

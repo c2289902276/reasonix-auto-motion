@@ -8,7 +8,11 @@
 
 > **Acknowledgement & Fork Notes**: This project is forked from [vibe-motion/auto-motion](https://github.com/vibe-motion/auto-motion). Credits to the original author. The upstream uses Codex (orchestration) + Claude Code (execution) as its runtime; this fork replaces them with [Reasonix CLI](https://github.com/esengine/DeepSeek-Reasonix) (`reasonix run`) and adds a multi-model smart router: orchestration runs on GLM-5.2, execution on DeepSeek-V4-Pro, web search via a DeepSeek-V4-Flash subagent, and multimodal visual recognition via a Qwen3.7-Plus subagent. The HyperFrames skills under `.claude/skills/` are used with zero changes.
 
+## Run Evidence
 
+Below is a screenshot from a real run: a multi-scene job has been running for 1 hour and 36 minutes, with the orchestrator waiting for the executor to finish implementation and rendering of later scenes.
+
+<img src="./readme-assets/evidence.png" alt="auto-motion long-running orchestration and execution workflow evidence" width="720" />
 
 ## Architecture
 
